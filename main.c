@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-//введення даних, розв’язок задачі, виведення результату
 
 typedef struct //structure
 {
@@ -24,22 +23,31 @@ typedef struct //structure
 
 } student ;
 
-//puts(line);
-student s [26];
+student s[26];
+/*
+struct{
+int d:3;
+int a:4;
+}t;
 
-int main()
+union{
+char surname,
+    name;
+};
+*/
+void inizialization()
 {
-    char line [150];
+    char line[150];
     FILE *file = fopen("D:\students.txt", "r");
 
     for(int i=0; i<26; i++)//inizialization
     {
         fgets(line, sizeof(line), file);
 
-        int length = strcspn(line, "\n");
+        int length = strcspn(line, "\n");//calculates the length of the number of characters before "\n"
 
         char *token_surname = strtok(line," ");
-        char *surname = strdup(token_surname);
+        char *surname = strdup(token_surname);//without handling memory
         s[i].full_name.surname = surname;
 
         char *token_name = strtok(NULL," ");
@@ -58,10 +66,18 @@ int main()
         s[i].subject.Linear_algebra = atoi (strtok(NULL," "));
 
         s[i].sex = line [length-1];
-        printf("Student[%d]:\n",i);//out inizialization
+    }
+
+    fclose(file);
+}
+void out_inizialization()
+{
+    for(int i=0; i<26; i++)
+    {
+        printf("Student[%d]:\n",i);
         puts(s[i].full_name.surname);
         puts(s[i].full_name.name);
-        puts(s[i].full_name.middle_name);
+        puts(s[i].full_name.middle_name);//out inizialization
         printf("%d\t",s[i].height);
         printf("%d\t",s[i].subject.programming);
         printf("%d\t",s[i].subject.SDA);
@@ -69,36 +85,35 @@ int main()
         printf("%d\t",s[i].subject.Linear_algebra);
         printf("%c\t",s[i].sex);
         puts("\n");
-
-
     }
-    puts("\n");
+}
 
-    int max_height[26],ind,buf;
-
+void sort(int *max_height1)
+{
+    int buf;
     for(int i=0; i<26 ; i++)//in dod mas
-        max_height[i] = s[i].height;
+        max_height1[i] = s[i].height;
 
     for(int k=1; k<26 ; k++)//sort
         for(int i=0; i<26-k ; i++)
         {
-            if(max_height[i] < max_height[i+1] )
+            if(max_height1[i] < max_height1[i+1] )
             {
-                buf = max_height[i];
-                max_height[i] = max_height[i+1];
-                max_height[i+1] = buf;
+                buf = max_height1[i];
+                max_height1[i] = max_height1[i+1];
+                max_height1[i+1] = buf;
             }
         }
-    for(int i=0; i<26 ; i++)//out sort
-        printf("%d,%d,%c\n",s[i].height,max_height[i],s[i].sex);
+}
 
+void out_sort(int max_height1[26],int ind)
+{
     int p=0;
     for(int i=0; i<26 ; i++)//out sort
         for(int j=0; j<26 ; j++)
-            if(max_height[i] == s[j].height && ind != j && p!=4 && s[j].sex == 'm' )//name and surname out???????
+            if(max_height1[i] == s[j].height && ind != j && p!=4 && s[j].sex == 'm' )
             {
                 ind = j;
-                printf("max1 = %d,\tind = %d\n",s[ind].height,ind);
                 printf("\n\nStudent[%d]:\n",i);
                 puts(s[ind].full_name.surname);
                 puts(s[ind].full_name.name);
@@ -109,10 +124,31 @@ int main()
                 printf("%d\t",s[ind].subject.Mathematical_analysis);
                 printf("%d\t",s[ind].subject.Linear_algebra);
                 printf("%c\t",s[ind].sex);
+                printf("\t|max [%d] = %d\n",ind,s[ind].height);
                 p++;
             }
+}
 
-    fclose(file);
+void separator()
+{
+    for(int i = 1; i < 9*13; i++)
+        printf("-");
+    printf("\n");
+}
+
+int main()
+{
+    int max_height[26],ind;
+
+    separator();//-
+    inizialization();
+    out_inizialization();
+
+    sort(&max_height);
+
+    separator();//-
+    out_sort(&max_height,ind);
+    separator();//-
 
     return 0;
 }

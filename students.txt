@@ -1,5 +1,5 @@
-Baydyk Vladislav Maksimovich 182 33 37 34 39 m
-Bevzyuk Daria Dmitrievna 189 36 33 39 25 f
+Baydyk Vladislav Maksimovich 200 33 37 34 39 f
+Bevzyuk Daria Dmitrievna 200 36 33 39 25 m
 Blindyuk Andriy Vladislavovich 190 55 27 31 36 m
 Burov Konstantin Evgenovich 165 28 35 37 29 m
 Valchyshen Svyatoslav Ruslanovich 175 32 30 27 35 m
